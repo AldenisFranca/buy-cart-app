@@ -74,7 +74,7 @@ const App = () => {
           < Stack.Screen
             name="Cart"
             component={CartScreen}
-            options={{
+            options={({ navigation, route }) => ({
               title: '',
               headerStyle: {
                 backgroundColor: '#a97ec5',
@@ -86,7 +86,38 @@ const App = () => {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
-            }}
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => { navigation.goBack() }}
+                  style={{ filter: [{ invert: 1 }] }}>
+                  <Image
+                    source={{
+                      uri: "https://cdn-icons-png.flaticon.com/512/130/130882.png",
+                    }}
+                    style={{
+                      width: 25, height: 25,
+                      marginLeft: '25%',
+                      marginTop: '25%',
+                      objectFit: 'fill',
+                    }}
+                  />
+                </TouchableOpacity>
+              ),
+              headerRight: () => (
+                <TouchableOpacity onPress={() => { navigation.navigate("Cart") }}>
+                  <Image
+                    source={{
+                      uri: "https://cdn.icon-icons.com/icons2/1369/PNG/512/-shopping-cart_90604.png",
+                    }}
+                    style={{
+                      width: 35, height: 35,
+                      marginRight: '15%',
+                      marginTop: '15%',
+                      objectFit: 'fill'
+                    }}
+                  />
+                </TouchableOpacity>
+              )
+            })}
           />
           < Stack.Screen
             name="Product"
@@ -101,12 +132,23 @@ const App = () => {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                  <Image
+                    source={{
+                      uri: "https://cdn-icons-png.flaticon.com/512/130/130882.png",
+                    }}
+                    style={{
+                      width: 25, height: 25,
+                      marginLeft: '25%',
+                      marginTop: '25%',
+                      objectFit: 'fill'
+                    }}
+                  />
+                </TouchableOpacity>
+              ),
               headerRight: () => (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("Cart");
-                  }}
-                >
+                <TouchableOpacity onPress={() => { navigation.navigate("Cart") }}>
                   <Image
                     source={{
                       uri: "https://cdn.icon-icons.com/icons2/1369/PNG/512/-shopping-cart_90604.png",

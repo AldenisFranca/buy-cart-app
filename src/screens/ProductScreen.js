@@ -33,8 +33,8 @@ const ProductScreen = ({ route, navigation }) => {
       backgroundColor: 'white',
     }}>
       {getLenCart(cart) > 0 && <View style={{
-        position: 'absolute', zIndex: 1,
-        top: 1, right: getLenCart(cart) > 9 ? 24 : 32,
+        position: 'absolute', zIndex: 10,
+        top: 1, right: getLenCart(cart) > 9 ? 18 : 25,
         backgroundColor: '#a97ec5',
         padding: 2, paddingHorizontal: 8,
         borderRadius: 16

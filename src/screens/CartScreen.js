@@ -11,6 +11,7 @@ import { useMyContext } from "../context/MyContext"; // Certifique-se de substit
 const CartScreen = ({ route, navigation }) => {
   const { addToCart, delToCart, cart, removeFromCart } = useMyContext();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [category, setCategory] = useState();
 
   const getProductQuantity = (productId) => {
     const cartItem = cart.find((item) => item.id === productId);
@@ -20,6 +21,12 @@ const CartScreen = ({ route, navigation }) => {
   const getTotal = (cart) => {
     let total = 0;
     cart.map(item => total += item.price * item.quantity);
+    return total
+  }
+
+  const getLenCart = (cart) => {
+    let total = 0;
+    cart.map(item => total += item.quantity);
     return total
   }
 
@@ -36,23 +43,26 @@ const CartScreen = ({ route, navigation }) => {
           flexDirection: "row",
           columnGap: 8,
           borderRadius: 16,
-          // backgroundColor: 'white',
         }}
       >
-        <Image
-          source={{
-            uri: item.uri,
-          }}
-          style={{
-            width: 100, height: 100,
-            objectFit: 'fill',
-            borderRadius: 16,
-          }}
-        />
+        <TouchableOpacity onPress={() => { navigation.navigate("Product", { item: item }) }}>
+          <Image
+            source={{
+              uri: item.uri,
+            }}
+            style={{
+              width: 100, height: 100,
+              objectFit: 'fill',
+              borderRadius: 16,
+            }}
+          />
+        </TouchableOpacity>
         <View style={{ width: '63%' }}>
-          <Text style={{ fontSize: 18, fontWeight: 500, paddingTop: 5, }}>
-            {item.name}
-          </Text>
+          <TouchableOpacity onPress={() => { navigation.navigate("Product", { item: item }) }}>
+            <Text style={{ fontSize: 18, fontWeight: 500, paddingTop: 5, }}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
           <Text style={{ fontSize: 18, fontWeight: 500, textAlign: 'right' }}>
             $ {item.price * item.quantity}
           </Text>
@@ -108,9 +118,22 @@ const CartScreen = ({ route, navigation }) => {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#a97ec5" }}>
+      {getLenCart(cart) > 0 && <View style={{
+        position: 'absolute', zIndex: 10,
+        top: 1, right: getLenCart(cart) > 9 ? 16.5 : 24.5,
+        backgroundColor: 'white',
+        padding: 2, paddingHorizontal: 8,
+        borderRadius: 16
+      }}>
+        <Text style={{
+          color: '#a97ec5',
+          fontWeight: 500,
+        }}>{getLenCart(cart) < 100 ? getLenCart(cart) : 99}</Text>
+      </View>}
+
       <Text style={{
         width: '80%',
-        paddingBottom: 20,
+        marginVertical: 20,
         fontSize: 24,
         fontWeight: 500,
         color: 'white',
@@ -124,39 +147,51 @@ const CartScreen = ({ route, navigation }) => {
         alignItems: "center",
       }}>
         <TouchableOpacity style={{
-          backgroundColor: '#7f89c6',
+          backgroundColor: category == 1 ? '#7f89c6' : 'transparent',
           padding: 10,
           borderRadius: 12
         }}
-          disabled
-          onPress={() => {
-            addToCart({ ...item, quantity: selectedQuantity });
-          }}
+          onPress={() => { setCategory(category != 1 ? 1 : null) }}
         >
           <Text style={{ color: 'white', fontWeight: 500 }}>Burguer</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ padding: 10 }}
-          onPress={() => { }}
+        <TouchableOpacity style={{
+          backgroundColor: category == 2 ? '#7f89c6' : 'transparent',
+          padding: 10,
+          borderRadius: 12
+        }}
+          onPress={() => { setCategory(category != 2 ? 2 : null) }}
         >
           <Text style={{ color: 'white', fontWeight: 500 }}>Pizza</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ padding: 10 }}
-          onPress={() => { }}
+        <TouchableOpacity style={{
+          backgroundColor: category == 3 ? '#7f89c6' : 'transparent',
+          padding: 10,
+          borderRadius: 12
+        }}
+          onPress={() => { setCategory(category != 3 ? 3 : null) }}
         >
           <Text style={{ color: 'white', fontWeight: 500 }}>Pasta</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ padding: 10 }}
-          onPress={() => { }}
+        <TouchableOpacity style={{
+          backgroundColor: category == 4 ? '#7f89c6' : 'transparent',
+          padding: 10,
+          borderRadius: 12
+        }}
+          onPress={() => { setCategory(category != 4 ? 4 : null) }}
         >
           <Text style={{ color: 'white', fontWeight: 500 }}>Popular</Text>
         </TouchableOpacity>
       </View>
 
       <FlatList
-        data={cart}
+        data={cart.filter(item => {
+          if (category == null) return item
+          else if (category == item.category) return item
+        })}
         style={{
           width: '100%',
           backgroundColor: 'white',
