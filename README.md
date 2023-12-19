@@ -1,6 +1,6 @@
 # App Carrinho de Compras
 
-Você deverá desenvolver um aplicativo para listar produtos e adicionar no carrinho de compra,. O aplicativo de ser desenvolvido em  React-Native.
+Você deverá desenvolver um aplicativo para listar produtos e adicionar no carrinho de compras. O aplicativo de ser desenvolvido em  React-Native.
 O resultado final deverá ser parecido com o layout em anexo.
 
 Os dados podem ser listados em array, porém deve-se usar o contextapi para guardar o estado das informações em qualquer página que estiver. Critérios a serem analisados:
